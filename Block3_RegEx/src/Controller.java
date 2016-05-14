@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -10,11 +12,26 @@ import java.util.Scanner;
 public class Controller {
     private static String NAME_REG = "^[A-Z][a-zA-Z'-]{0,20}$";
     private static String NICK_REG = "^\\w{5,20}$";
-    private static String COMMENT_REG = "^\\W\\w{0,200}$";//any word and non-word characters at least 0, but no more than 200 times
+    private static String GROUP_REG = "^[0-4]$";
     private static String TELEPHONE_NUMBER_REG = "^[+*\\d-]{5,20}$";
     private static String EMAIL_REG = "^\\w+([\\.\\w]+)*@\\w((\\.\\w)*\\w+)*\\.\\w{2,3}$";
-    String SKYPE_REG = "^[\\w\\.\\-_]{6,20}$";
-
+    private static String SKYPE_REG = "^[\\w\\.\\-_]{6,20}$";
+    private static String ZIP_REG = "^\\d{5}$";
+    /**
+     * # ^         - Match the line start.
+     * # (?:       - Start a non-catching group
+     * # [a-zA-Z]+ - That starts with 1 or more letters.
+     * # [.'\-,]?  - Followed by one period, apostrophe dash, or comma. (optional)
+     * # \s?       - Followed by a space (optional)
+     * # )+        - End of the group, match at least one or more of the previous group.
+     * # $         - Match the end of the line
+     */
+    private static String CITY_REGEX = "^(?:[a-zA-Z]+(?:[.'\\-,])?\\s?)+$";
+    private static String STREET_REGEX = "^[A-Z][\\w -']{2,20}$";
+    private static String HOUSE_REGEX = "^\\d[\\w-]{0,5}$";
+    private static String FLAT_REGEX = "^\\d{1,4}-?\\d{0,3}[a-zA-Z]?$";
+    private static final SimpleDateFormat DATE_FORMAT=new SimpleDateFormat("mm/DD/yyyy");
+    private static String COMMENT_REG = "^\\W\\w{0,200}$";//any word and non-word characters at least 0, but no more than 200 times
 
     /**
      * The {@code Model} and  {@code View} represent the instances of the mentioned classes
@@ -68,11 +85,21 @@ public class Controller {
         model.setFirstName(inputDataWithScanner(sc, View.INPUT_FIRST_NAME, NAME_REG, false));
         model.setMiddleName(inputDataWithScanner(sc, View.INPUT_MIDDLE_NAME, NAME_REG, false));
         model.setNickName(inputDataWithScanner(sc, View.INPUT_NICKNAME, NICK_REG, false));
+        model.setGroup(Integer.valueOf(inputDataWithScanner(sc, View.INPUT_GROUP, GROUP_REG, false)));
         model.setCellPhone(inputDataWithScanner(sc, View.INPUT_CELLPHONE, TELEPHONE_NUMBER_REG, false));
-        model.setHomeNumber(inputDataWithScanner(sc, View.INPUT_HOMENUMBER, TELEPHONE_NUMBER_REG, false));
+        model.setHomeNumber(inputDataWithScanner(sc, View.INPUT_HOMENUMBER, TELEPHONE_NUMBER_REG, true));//homeNumber is optional
         model.seteMail(inputDataWithScanner(sc, View.INPUT_EMAIL, EMAIL_REG, false));
-        model.setSkype(inputDataWithScanner(sc, View.INPUT_SKYPE, SKYPE_REG, false));
+        model.setSkype(inputDataWithScanner(sc, View.INPUT_SKYPE, SKYPE_REG, true));//skype is optional
+        model.setFormattedFullAdress(inputDataWithScanner(sc, View.INPUT_ZIP, ZIP_REG, false),
+                inputDataWithScanner(sc, View.INPUT_CITY, CITY_REGEX, false),
+                inputDataWithScanner(sc, View.INPUT_STREET, STREET_REGEX, false),
+                inputDataWithScanner(sc, View.INPUT_HOUSE, HOUSE_REGEX, false),
+                inputDataWithScanner(sc, View.INPUT_FLAT, FLAT_REGEX, false));
+        model.setRegistrationDate(getCurrentDate(DATE_FORMAT));
+        model.setComments(inputDataWithScanner(sc,View.INPUT_COMMENTS,COMMENT_REG,true));
     }
 
-
+ private  String getCurrentDate (SimpleDateFormat dateFormat){
+     return  dateFormat.format(new Date()).toString();
+ }
 }

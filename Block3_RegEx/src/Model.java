@@ -9,37 +9,52 @@ public class Model {
     /**
      * the components of the noteBook
      */
-    private String firstName,
-            middleName,
-            lastName,
-            nickName,
-            comments,
-            homeNumber,
-            cellPhone,
-            eMail,
-            skype,
-            dataFirstEntered,
-            dataModified;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String nickName;
+    private String comments;
+    private String homeNumber;
+    private String cellPhone;
+    private String eMail;
+    private String skype;
+
+
+    private String registrationDate;
     Group group;
     Address address;
 
     @Override
     public String toString() {
-        return "Model{" +
-                "firstName='" + firstName + '\'' +
-                ", middleName='" + middleName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", nickName='" + nickName + '\'' +
-                ", comments='" + comments + '\'' +
-                ", homeNumber='" + homeNumber + '\'' +
-                ", cellPhone='" + cellPhone + '\'' +
-                ", eMail='" + eMail + '\'' +
-                ", skype='" + skype + '\'' +
-                ", dataFirstEntered='" + dataFirstEntered + '\'' +
-                ", dataModified='" + dataModified + '\'' +
-                ", group=" + group +
-                ", address=" + address +
-                '}';
+        return "Name='" + getFormatedFullName() + '\'' +
+                ",\n nickName='" + nickName + '\'' +
+                ",\n comments='" + comments + '\'' +
+                ",\n homeNumber='" + homeNumber + '\'' +
+                ",\n cellPhone='" + cellPhone + '\'' +
+                ",\n eMail='" + eMail + '\'' +
+                ",\n skype='" + skype + '\'' +
+                ",\n Registration date='" + registrationDate + '\'' +
+                ",\n group=" + group +
+                ",\n " + address;
+    }
+
+    public String getFormatedFullName() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(lastName).append(" ").append(firstName.charAt(0)).append(". ").append(middleName.charAt(0)).append(".");
+        return sb.toString();
+    }
+
+    public void setFormattedFullAdress(String zipCode, String city, String street, String house, String flat) {
+        address = new Address();
+        address.setZipCode(zipCode);
+        address.setCity(city);
+        address.setStreet(street);
+        address.setHouse(house);
+        address.setFlat(flat);
+    }
+
+    public void setGroup(int number) {
+        this.group = Group.values()[number];
     }
 
     public String getFirstName() {
@@ -114,29 +129,11 @@ public class Model {
         this.skype = skype;
     }
 
-    public String getDataFirstEntered() {
-        return dataFirstEntered;
-    }
-
-    public void setDataFirstEntered(String dataFirstEntered) {
-        this.dataFirstEntered = dataFirstEntered;
-    }
-
-    public String getDataModified() {
-        return dataModified;
-    }
-
-    public void setDataModified(String dataModified) {
-        this.dataModified = dataModified;
-    }
 
     public Group getGroup() {
         return group;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
-    }
 
     public Address getAddress() {
         return address;
@@ -145,4 +142,13 @@ public class Model {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+    public String getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(String registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
 }
