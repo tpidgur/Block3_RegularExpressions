@@ -1,5 +1,6 @@
 /**
- * Created by Зая on 13.05.2016.
+ * @author Pidhurska Tetiana
+ * @version 1 (created on 13.05.16)
  */
 public class Address {
     private String zipCode,
@@ -71,9 +72,13 @@ public class Address {
         this.flat = flat;
     }
 
+    /**
+     *
+     * @return the adress in 2 formats, by invoking getPostAddress()  and getOrdinaryAddress() methods
+     */
     @Override
     public String toString() {
         return "Post Address:" + getPostAddress() +
-                ",\n Ordinary adress=" + getOrdinaryAddress();
+                "\n Ordinary adress=" + getOrdinaryAddress();
     }
 }

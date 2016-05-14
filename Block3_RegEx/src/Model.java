@@ -18,8 +18,6 @@ public class Model {
     private String cellPhone;
     private String eMail;
     private String skype;
-
-
     private String registrationDate;
     Group group;
     Address address;
@@ -38,12 +36,25 @@ public class Model {
                 ",\n " + address;
     }
 
+    /**
+     * @return the formatted Name
+     * For example: Pidhurska T. V.
+     */
     public String getFormatedFullName() {
         StringBuilder sb = new StringBuilder();
         sb.append(lastName).append(" ").append(firstName.charAt(0)).append(". ").append(middleName.charAt(0)).append(".");
         return sb.toString();
     }
 
+    /**
+     * the Adress object is created with the corresponding fields:
+     *
+     * @param zipCode
+     * @param city
+     * @param street
+     * @param house
+     * @param flat
+     */
     public void setFormattedFullAdress(String zipCode, String city, String street, String house, String flat) {
         address = new Address();
         address.setZipCode(zipCode);
@@ -53,6 +64,11 @@ public class Model {
         address.setFlat(flat);
     }
 
+    /**
+     * the corresponding ENUM constant is chosen based on the index of the element in array, to which this constant corresponds
+     *
+     * @param number
+     */
     public void setGroup(int number) {
         this.group = Group.values()[number];
     }
